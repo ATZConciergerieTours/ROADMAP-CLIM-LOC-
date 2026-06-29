@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roadmap — Clim Loc Tours</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ice: #E8F4FD;
+      --sky: #5BAFDA;
+      --deep: #1A3A50;
+      --frost: #C2E3F4;
+      --warm: #F7F2EC;
+      --accent: #FF6B35;
+      --done-bg: #EBF5EB;
+      --done-text: #2E7D32;
+      --p1: #5BAFDA;
+      --p2: #F7A541;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--deep);
+      color: var(--ice);
+      min-height: 100vh;
+      padding: 0 0 80px;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #0d2535 0%, #1A3A50 60%, #1d4a6b 100%);
+      padding: 48px 32px 40px;
+      text-align: center;
+      border-bottom: 1px solid rgba(91,175,218,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,175,218,0.15) 0%, transparent 70%);
+    }
+    .logo-line {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--sky);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+    }
+    h1 span { color: var(--sky); }
+    .header-sub {
+      margin-top: 12px;
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(232,244,253,0.7);
+    }
+    .countdown-bar {
+      margin-top: 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,107,53,0.12);
+      border: 1px solid rgba(255,107,53,0.35);
+      border-radius: 40px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #FF8A5B;
+    }
+    .dot-pulse {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* PROGRESS */
+    .progress-wrap {
+      max-width: 860px;
+      margin: 32px auto 0;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .progress-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(91,175,218,0.2);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+    .progress-label {
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .progress-label .name { font-weight: 500; }
+    .progress-label .count { font-family: 'DM Mono', monospace; font-size: 13px; }
+    .p1-label .name { color: var(--p1); }
+    .p2-label .name { color: var(--p2); }
+    .bar-track {
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.5s ease;
+    }
+    .p1-fill { background: linear-gradient(90deg, #5BAFDA, #89CFEF); }
+    .p2-fill { background: linear-gradient(90deg, #F7A541, #FFCC70); }
+
+    /* MAIN */
+    main {
+      max-width: 860px;
+      margin: 36px auto 0;
+      padding: 0 24px;
+      display: grid;
+      gap: 12px;
+    }
+
+    /* DAY SECTION */
+    .day-section { }
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+      padding: 0 4px;
+    }
+    .day-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      background: rgba(91,175,218,0.12);
+      border: 1px solid rgba(91,175,218,0.25);
+      border-radius: 6px;
+      padding: 4px 10px;
+      color: var(--sky);
+      white-space: nowrap;
+    }
+    .day-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(232,244,253,0.55);
+    }
+    .day-divider {
+      flex: 1;
+      height: 1px;
+      background: rgba(91,175,218,0.12);
+    }
+
+    /* TASK CARD */
+    .task {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      user-select: none;
+      margin-bottom: 8px;
+    }
+    .task:hover { background: rgba(255,255,255,0.07); border-color: rgba(91,175,218,0.25); transform: translateX(2px); }
+    .task.done {
+      background: rgba(46,125,50,0.08);
+      border-color: rgba(46,125,50,0.25);
+    }
+    .task.done .task-text { text-decoration: line-through; color: rgba(232,244,253,0.35); }
+    .task.done .task-note { color: rgba(232,244,253,0.25); }
+
+    .checkbox {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      border: 2px solid rgba(255,255,255,0.2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 1px;
+    }
+    .task.done .checkbox {
+      background: #2E7D32;
+      border-color: #2E7D32;
+    }
+    .check-icon { display: none; color: #fff; font-size: 13px; font-weight: 700; }
+    .task.done .check-icon { display: block; }
+
+    .task-body { flex: 1; }
+    .task-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+    .task-text { font-size: 14px; font-weight: 500; color: var(--ice); line-height: 1.4; }
+    .task-note { font-size: 12px; color: rgba(232,244,253,0.45); line-height: 1.5; margin-top: 2px; font-weight: 300; }
+
+    .owner-badge {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      border-radius: 4px;
+      padding: 2px 7px;
+      flex-shrink: 0;
+    }
+    .badge-p1 { background: rgba(91,175,218,0.15); color: var(--sky); border: 1px solid rgba(91,175,218,0.3); }
+    .badge-p2 { background: rgba(247,165,65,0.15); color: var(--p2); border: 1px solid rgba(247,165,65,0.3); }
+    .badge-both {
+      background: rgba(255,255,255,0.06);
+      color: rgba(232,244,253,0.6);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .urgent-tag {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(255,107,53,0.15);
+      color: var(--accent);
+      border: 1px solid rgba(255,107,53,0.3);
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+
+    /* LEGEND */
+    .legend {
+      max-width: 860px;
+      margin: 0 auto 24px;
+      padding: 0 24px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: rgba(232,244,253,0.55);
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 3px;
+    }
+
+    /* FOOTER */
+    .footer-note {
+      max-width: 860px;
+      margin: 32px auto 0;
+      padding: 0 24px;
+      font-size: 12px;
+      color: rgba(232,244,253,0.3);
+      text-align: center;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-line">Clim Loc Tours · Roadmap Lancement</div>
+  <h1>Opérationnel le <span>6 juillet</span></h1>
+  <div class="header-sub">7 jours · 5 climatiseurs · 2 associés · Zéro concurrence à Tours</div>
+  <div class="countdown-bar">
+    <div class="dot-pulse"></div>
+    Canicule prévue le 6 juillet — J-7 à compter du 29 juin
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="progress-label p1-label">
+      <span class="name" id="p1-name">Associé 1</span>
+      <span class="count" id="p1-count">0 / 0</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill p1-fill" id="p1-bar" style="width:0%"></div></div>
+  </div>
+  <div class="progress-card">
+    <div class="progress-label p2-label">
+      <span class="name" id="p2-name">Associé 2</span>
+      <span class="count" id="p2-count">0 / 0</span>
+    </div>
+    <div class="bar-track"><div class="bar-fill p2-fill" id="p2-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div style="max-width:860px;margin:20px auto 16px;padding:0 28px;">
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sky);"></div> Associé 1</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--p2);"></div> Associé 2</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.25);"></div> Ensemble</div>
+  </div>
+</div>
+
+<main id="task-list">
+
+  <!-- ═══ JOUR 1 : 29 juin ═══ -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-tag">J1 · Lun 29 juin</div>
+      <div class="day-title">Fondations juridiques & financières</div>
+      <div class="day-divider"></div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Choisir la structure juridique</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Auto-entrepreneur (idéal pour démarrer vite, 0 frais) vs. SAS/SARL si vous voulez partager les parts officiellement. Décision à prendre ensemble ce soir.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer le compte auto-entrepreneur sur autoentrepreneur.urssaf.fr</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Inscription en ligne, gratuite, immédiate. Activité : "Location de matériel" (code APE 7729Z). Le numéro SIRET arrive sous 24–72h.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Ouvrir un compte bancaire dédié à l'activité</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Compte pro Shine, Qonto ou Revolut Business : ouverture en ligne en quelques minutes. Indispensable pour séparer les flux dès le premier paiement.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Définir clairement les rôles et la répartition des revenus</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+        </div>
+        <div class="task-note">Qui gère la logistique ? Qui gère la com' ? Quelle part pour chacun ? Mettez-le par écrit (même un email suffit pour commencer).</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Souscrire une assurance responsabilité civile professionnelle</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Obligatoire avant de louer du matériel à des tiers. Hiscox, AXA Pro, Maif Pro : devis en 10 min en ligne. Couvre les dommages causés par les appareils chez les clients.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Rédiger un contrat de location type</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Document à faire signer à chaque client : durée de location, prix, caution, conditions de restitution, responsabilité en cas de casse. Modèle disponible sur Jurislogement ou Legifrance. Faire relire par un juriste si possible.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JOUR 2 : 30 juin ═══ -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-tag">J2 · Mar 30 juin</div>
+      <div class="day-title">Acquisition du matériel</div>
+      <div class="day-divider"></div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Définir le budget total et le prix d'achat cible par clim</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+        </div>
+        <div class="task-note">Climatiseurs mobiles : comptez 250–400€ pièce (ex. De'Longhi, Tristar, Electrolux). Pour 5 appareils : budget ~1500–2000€. Calculez à partir de combien de locations vous êtes rentables.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Sourcer les 5 climatiseurs mobiles</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Vérifier stock immédiat : Boulanger Tours, Darty Tours, Leroy Merlin Tours Nord/Sud, Amazon (livraison express). En canicule, les stocks s'épuisent VITE — ne pas attendre. Privilégier un seul modèle pour simplifier la maintenance.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Acheter ou commander les 5 climatiseurs</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Conserver toutes les factures (déductibles et preuve de propriété). Si achat en magasin, ramener les appareils le jour même.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Acheter le matériel d'accompagnement</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Kit d'évacuation d'air (tuyaux flexibles si non fournis), ruban adhésif, étiquettes de numérotation (Clim n°1 à n°5), sacs de transport propres.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Numéroter et inventorier chaque appareil</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Coller un numéro visible sur chaque clim. Créer une fiche par appareil (modèle, numéro de série, état initial avec photo). Servira en cas de litige client.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Tester chaque climatiseur avant la mise en location</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Allumer chaque appareil, vérifier les 3 modes (froid, ventilation, déshumidification), l'évacuation d'air, la télécommande. Ne jamais louer un appareil non testé.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JOUR 3 : 1er juillet ═══ -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-tag">J3 · Mer 1er juillet</div>
+      <div class="day-title">Offre commerciale & tarification</div>
+      <div class="day-divider"></div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Fixer la grille tarifaire</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+        </div>
+        <div class="task-note">Exemples : 25€/jour, 60€/semaine, 100€/2 semaines. Inclure ou non la livraison ? (Livraison payante = revenu bonus). Définir le montant de la caution (ex. 100–150€ chèque ou CB non encaissé).</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer un système de réservation simple</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Pour commencer : un Google Calendar partagé suffit. Chaque clim = un agenda couleur. Ou utiliser un outil comme Calendly. L'objectif est de ne jamais double-louer le même appareil.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer un moyen d'encaisser les paiements</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">SumUp ou Zettle (lecteur CB sans abonnement, ~20€). Virement bancaire (donner l'IBAN). PayPal ou Lydia. Éviter le cash seul : pas traçable fiscalement.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Préparer un modèle de facture ou reçu</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Obligatoire pour toute transaction professionnelle. Inclure : nom commercial, SIRET, date, description, montant TTC, numéro de facture. Outil gratuit : Freebe, Indy, ou un template Google Docs.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Rédiger une fiche "guide d'utilisation" à remettre au client</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Installation du tuyau d'évacuation, précautions électriques, vidage du bac à condensats, que faire en cas de panne. Réduit les appels inutiles et les mauvaises utilisations.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JOUR 4 : 2 juillet ═══ -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-tag">J4 · Jeu 2 juillet</div>
+      <div class="day-title">Identité visuelle & présence en ligne</div>
+      <div class="day-divider"></div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer un logo simple avec la palette de couleurs</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Canva (gratuit) suffit largement pour un logo de démarrage. Exporter en PNG fond transparent. S'en servir partout : réseaux, factures, bannières.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer une page Google Business Profile (Google Maps)</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Gratuit, essentiel pour apparaître dans "location climatiseur Tours" sur Google. Ajouter : nom, téléphone, photos, horaires, description. La vérification prend 3–5 jours.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer une page Facebook "Clim Loc Tours"</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Page entreprise, pas profil personnel. Ajouter photo de couverture, description, téléphone, lien de contact. Facebook reste très utilisé à Tours pour les recherches locales.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer un compte Instagram "climloctours"</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Bio courte et claire : "📍 Tours · Location de climatiseurs mobiles · Livraison à domicile · ☎️ [numéro]". Ajouter un lien Linktree ou directement vers WhatsApp.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Réserver un numéro de téléphone dédié</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Ne pas utiliser son numéro perso. Carte SIM prépayée ou numéro virtuel (Ringover, YouMM). Numéro local 02 ou mobile : les deux fonctionnent.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Créer une adresse email professionnelle</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">contact@climloctours.fr (si vous avez un domaine) ou climloctours@gmail.com. Configurer une réponse automatique avec les infos de contact et les tarifs.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Publier une annonce sur Le Bon Coin</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Catégorie "Services". Titre accrocheur : "Location climatiseur mobile – Tours et agglomération – Livraison possible". Ajouter photos réelles des appareils. 1ère source de leads locale.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Publier sur les groupes Facebook de Tours</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Chercher "Tours 37 entraide", "Tours annonces", "Touraine bons plans". Post simple : photo + tarif + numéro. Republier tous les 2 jours pendant la canicule.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JOUR 5 : 3 juillet ═══ -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-tag">J5 · Ven 3 juillet</div>
+      <div class="day-title">Communication terrain & logistique</div>
+      <div class="day-divider"></div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Imprimer et distribuer des flyers dans le secteur</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Canva pour le design, impression chez un imprimeur local ou en pharmacie/supermarché (borne photo). Cibler : résidences sans clim, maisons de quartier, boulangeries, pharmacies. Demander à les afficher.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Contacter les agences immobilières de Tours</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Elles gèrent des locataires souvent sans clim. Un partenariat (elles recommandent votre service) peut générer des leads réguliers. Email ou appel direct, message court et professionnel.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Contacter les EHPAD et structures d'accueil pour personnes âgées</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Cible prioritaire en canicule, souvent dotée de budgets d'urgence. Proposer la location en volume (3–5 appareils d'un coup). Un seul contrat = tout votre stock placé.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Organiser la logistique de livraison et récupération</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Quel véhicule ? (Coffre de voiture suffit pour 1–2 clims, utilitaire pour 4–5). Définir les plages de livraison (ex. 8h–12h et 14h–18h). Calculer un rayon d'action maximal (ex. 20 km autour de Tours).</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Préparer un protocole de nettoyage entre chaque location</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Nettoyer les filtres, désinfecter les surfaces, vider le bac à eau, vérifier le bon fonctionnement. Prévoir produits de nettoyage. Le client doit recevoir un appareil impeccable.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Lancer une campagne Meta Ads ciblée Tours</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Budget 20–50€ suffit sur 5 jours. Ciblage : département 37, 25–65 ans. Visuel choc : thermomètre + clim + "Disponible dès aujourd'hui à Tours". L'algorithme booste ce type d'annonce en période de canicule.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JOUR 6 : 4–5 juillet ═══ -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-tag">J6 · Sam–Dim 4–5 juillet</div>
+      <div class="day-title">Premières réservations & tests grandeur nature</div>
+      <div class="day-divider"></div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Prendre les premières réservations et signer les premiers contrats</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+          <span class="urgent-tag">urgent</span>
+        </div>
+        <div class="task-note">Faire signer le contrat, encaisser le paiement + la caution, remettre la fiche d'utilisation. Photographier l'appareil avant livraison chez le client.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Effectuer les premières livraisons et installations</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Accompagner le client dans l'installation (10 min max). Expliquer le fonctionnement sur place. Laisser le guide écrit. Photographier l'installation chez le client.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Mettre à jour le planning de disponibilité en temps réel</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Dès qu'un appareil part, marquer la date de retour prévue. Anticiper les créneaux pour ne jamais être pris de court.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Publier du contenu sur les réseaux sociaux</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Stories Instagram + post Facebook montrant les livraisons (avec accord du client si on le filme). La preuve sociale en temps réel est le meilleur argument de vente pendant une canicule.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Vérifier l'état de chaque appareil au retour client</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Comparer avec les photos de départ. En cas de casse ou dommage, procéder à la retenue sur caution selon les termes du contrat. Nettoyer et tester avant la prochaine location.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Faire un point rapide sur ce qui fonctionne et ce qui coince</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+        </div>
+        <div class="task-note">Durée de livraison trop longue ? Prix trop haut/bas ? Appareil trop lourd à transporter ? Ajuster avant le pic du 6 juillet. 30 minutes de debriefing ensemble.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JOUR 7 : 6 juillet ═══ -->
+  <div class="day-section">
+    <div class="day-header">
+      <div class="day-tag">J7 · Lun 6 juillet</div>
+      <div class="day-title">🌡️ Jour J — Canicule — Full opérationnel</div>
+      <div class="day-divider"></div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Être disponible toute la journée (téléphone, réseaux, livraisons)</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+          <span class="urgent-tag">priorité max</span>
+        </div>
+        <div class="task-note">Le pic de demande arrive ce jour-là. Répondre sous moins d'1 heure à chaque demande. La réactivité est votre avantage concurrentiel sur les grandes enseignes.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Republier les annonces sur tous les canaux ce matin-là</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">LeBonCoin, Facebook, Instagram. Mentionner "DISPONIBLE AUJOURD'HUI" et la météo du jour. Réactivité = confiance = conversion.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p1" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Gérer les livraisons en optimisant les trajets</div>
+          <span class="owner-badge badge-p1">Associé 1</span>
+        </div>
+        <div class="task-note">Utiliser Google Maps pour regrouper les livraisons par quartier. Ne pas faire des allers-retours inutiles. Communiquer les créneaux précis aux clients.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="p2" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Tenir à jour les encaissements et les factures</div>
+          <span class="owner-badge badge-p2">Associé 2</span>
+        </div>
+        <div class="task-note">Chaque location = une facture émise = un paiement enregistré. Ne pas laisser des "on verra plus tard". La traçabilité dès J1 vous sauvera au moment de la déclaration.</div>
+      </div>
+    </div>
+
+    <div class="task" data-owner="both" onclick="toggle(this)">
+      <div class="checkbox"><span class="check-icon">✓</span></div>
+      <div class="task-body">
+        <div class="task-top">
+          <div class="task-text">Demander des avis Google et Facebook aux premiers clients satisfaits</div>
+          <span class="owner-badge badge-both">Ensemble</span>
+        </div>
+        <div class="task-note">Un message WhatsApp suffit : "Si vous êtes satisfait, un petit avis Google nous aiderait énormément 🙏". Les premiers avis construisent votre crédibilité pour les prochaines canicules.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="footer-note">
+  Clim Loc Tours · Roadmap générée le 29 juin 2026 — Cliquez sur chaque tâche pour la cocher ✓
+</div>
+
+<script>
+  const STORAGE_KEY = 'climloc_tasks_v1';
+
+  function getState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+
+  function toggle(el) {
+    el.classList.toggle('done');
+    const state = getState();
+    const id = el.dataset.id;
+    state[id] = el.classList.contains('done');
+    saveState(state);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const tasks = document.querySelectorAll('.task');
+    const p1Tasks = [...tasks].filter(t => t.dataset.owner === 'p1');
+    const p2Tasks = [...tasks].filter(t => t.dataset.owner === 'p2');
+    const p1Done = p1Tasks.filter(t => t.classList.contains('done')).length;
+    const p2Done = p2Tasks.filter(t => t.classList.contains('done')).length;
+
+    document.getElementById('p1-count').textContent = `${p1Done} / ${p1Tasks.length}`;
+    document.getElementById('p2-count').textContent = `${p2Done} / ${p2Tasks.length}`;
+    document.getElementById('p1-bar').style.width = p1Tasks.length ? `${(p1Done/p1Tasks.length)*100}%` : '0%';
+    document.getElementById('p2-bar').style.width = p2Tasks.length ? `${(p2Done/p2Tasks.length)*100}%` : '0%';
+  }
+
+  // Init: assign IDs and restore state
+  window.addEventListener('DOMContentLoaded', () => {
+    const tasks = document.querySelectorAll('.task');
+    const state = getState();
+    tasks.forEach((t, i) => {
+      t.dataset.id = `task_${i}`;
+      if (state[`task_${i}`]) t.classList.add('done');
+    });
+    updateProgress();
+  });
+</script>
+</body>
+</html>
